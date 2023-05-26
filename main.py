@@ -97,19 +97,16 @@ def detect_anomaly(video_characteristics):
     forest = IsolationForest()
     anomaly_scores = forest.fit_predict(video_features)
     anomaly_frames = [index for index, value in enumerate(anomaly_scores) if value == -1]
-    print(anomaly_frames)
     print('Аномальные кадры (Isolation Forest): ', get_timecode(video_characteristics["fps"], anomaly_frames))
 
     lof = LocalOutlierFactor()
     anomaly_scores = lof.fit_predict(video_features)
     anomaly_frames = [index for index, value in enumerate(anomaly_scores) if value == -1]
-    print(anomaly_frames)
     print('Аномальные кадры (Local Outlier Factor): ', get_timecode(video_characteristics["fps"], anomaly_frames))
 
     clf = OneClassSVM()
     anomaly_scores = clf.fit_predict(video_features)
     anomaly_frames = [index for index, value in enumerate(anomaly_scores) if value == -1]
-    print(anomaly_frames)
     print('Аномальные кадры (One Class SVM): ', get_timecode(video_characteristics["fps"], anomaly_frames))
 
 
