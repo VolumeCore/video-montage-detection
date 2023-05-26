@@ -97,16 +97,19 @@ def detect_anomaly(video_characteristics):
     forest = IsolationForest()
     anomaly_scores = forest.fit_predict(video_features)
     anomaly_frames = [index for index, value in enumerate(anomaly_scores) if value == -1]
+    print(anomaly_frames)
     print('Аномальные кадры (Isolation Forest): ', get_timecode(video_characteristics["fps"], anomaly_frames))
 
     lof = LocalOutlierFactor()
     anomaly_scores = lof.fit_predict(video_features)
     anomaly_frames = [index for index, value in enumerate(anomaly_scores) if value == -1]
+    print(anomaly_frames)
     print('Аномальные кадры (Local Outlier Factor): ', get_timecode(video_characteristics["fps"], anomaly_frames))
 
     clf = OneClassSVM()
     anomaly_scores = clf.fit_predict(video_features)
     anomaly_frames = [index for index, value in enumerate(anomaly_scores) if value == -1]
+    print(anomaly_frames)
     print('Аномальные кадры (One Class SVM): ', get_timecode(video_characteristics["fps"], anomaly_frames))
 
 
@@ -135,7 +138,7 @@ def get_timecode(fps, frame_indexes):
 def format_timecode(start_index, end_index, fps):
     start_time = start_index / fps
     end_time = (end_index + 1) / fps
-    return f"{format_seconds(start_time)}-{format_seconds(end_time)}"
+    return f"{format_seconds(start_time)}-{format_seconds(end_time)}" if start_index != end_index else f"{format_seconds(start_time)}"
 
 
 def format_seconds(seconds):
